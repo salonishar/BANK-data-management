@@ -1,0 +1,125 @@
+#include <iostream>
+using namespace std;
+
+class Bank
+{
+private:
+    int balance;
+
+public:
+    string name;
+    string accNum;
+
+    Bank()
+    {
+        cout << "INFORMATION" << endl;
+    }
+
+    // Bank(string n, int b, string a)
+    // {
+    //     name = n;
+    //     accNum = a;
+    //     setBalance(b);
+    // }
+
+    void setInfo(string n, int b, string a)
+    {
+        name = n;
+        accNum = a;
+        setBalance(b);
+        cout << endl;
+    }
+
+    void setBalance(int b)
+    {
+        balance = b;
+        if (balance < 0)
+        {
+            cout << "Excess demand of " << -(balance) << "\n";
+            cout << "full Withdrawl can't be made!\n";
+            balance = 0;
+        }
+    }
+
+    int getBalance()
+    {
+
+        return balance;
+    }
+
+    void deposit()
+    {
+        int depositAmount;
+        char choice;
+        cout << "Would you like to make a deposit? (Y/N): ";
+        cin >> choice;
+
+        switch (choice)
+        {
+        case 'Y':
+        case 'y':
+            cout << "How much deposit would you like to make? : ";
+            cin >> depositAmount;
+            setBalance(getBalance() + depositAmount);
+            break;
+
+        case 'N':
+        case 'n':
+            cout << "No deposit made.\n";
+            break;
+
+        default:
+            cout << "ERROR : Press 'Y' for 'yes' or 'N' for 'no'." << endl;
+            deposit();
+            break;
+        }
+        cout << endl;
+    }
+
+    void withdraw()
+    {
+        char s;
+        cout << "Would you like to make a withdraw ?(Y/N): ";
+        cin >> s;
+        int amount;
+        switch (s)
+        {
+        case 'Y':
+        case 'y':
+            cout << "How much would you like to withdraw ? :";
+            cin >> amount;
+            setBalance(getBalance() - amount);
+            break;
+        case 'N':
+        case 'n':
+            cout << "No amount withdrawn.\n";
+            break;
+        default:
+            cout << "ERROR : Press 'Y' for 'yes' or 'N' for 'no'.\n";
+            withdraw();
+            break;
+        }
+        cout << endl;
+    }
+
+    void getInfo()
+    {
+        cout << "Name : " << name << endl;
+        cout << "Balance : " << balance << endl;
+        cout << "Account number : " << accNum << endl;
+        cout << endl;
+    }
+};
+
+int main()
+{
+    Bank user1;
+    user1.setInfo("Saloni", 10000, "12345");
+    user1.getInfo();
+    user1.deposit();
+    user1.withdraw();
+    user1.getInfo();
+
+
+    return 0;
+}
