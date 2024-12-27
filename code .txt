@@ -10,36 +10,34 @@ public:
     string name;
     string accNum;
 
-    Bank()
-    {
-        cout << "INFORMATION" << endl;
-    }
-
-    // Bank(string n, int b, string a)
-    // {
-    //     name = n;
-    //     accNum = a;
-    //     setBalance(b);
-    // }
-
-    void setInfo(string n, int b, string a)
+    // parameterized constructor
+    // setting up information
+    Bank(string n, int b, string a)
     {
         name = n;
+        balance = b;
         accNum = a;
-        setBalance(b);
-        cout << endl;
     }
 
-    void setBalance(int b)
+    // Modifying balance with every change
+    // balance can not be negative
+
+    void setBalance(int b, int amount)
     {
-        balance = b;
-        if (balance < 0)
+        cout << "BALANCE WINDOW : " << endl;
+        if (b < 0)
         {
-            cout << "Excess demand of " << -(balance) << "\n";
-            cout << "full Withdrawl can't be made!\n";
-            balance = 0;
+            cout << "Available balance can't be negative. \n";
+            cout << "Excess demand of " << -(b) << "\n";
+            cout << "balance unchanged.\n";
+        }
+        else
+        {
+            balance = b;
         }
     }
+
+    // function that return balance info wherever called within the class
 
     int getBalance()
     {
@@ -47,63 +45,96 @@ public:
         return balance;
     }
 
-    void deposit()
+    // a method function to track deposits
+    // answer all the yes / no questions with "Y,y,N,n"
+    // recursion function called if yes/no is answered any other way
+    // if wrong input entered for 3 times the
+
+    void deposit(int attempt = 1)
     {
+        cout << "DEPOSIT WINDOW : " << endl;
         int depositAmount;
         char choice;
-        cout << "Would you like to make a deposit? (Y/N): ";
-        cin >> choice;
-
-        switch (choice)
+        if (attempt > 2)
         {
-        case 'Y':
-        case 'y':
-            cout << "How much deposit would you like to make? : ";
-            cin >> depositAmount;
-            setBalance(getBalance() + depositAmount);
-            break;
-
-        case 'N':
-        case 'n':
-            cout << "No deposit made.\n";
-            break;
-
-        default:
-            cout << "ERROR : Press 'Y' for 'yes' or 'N' for 'no'." << endl;
-            deposit();
-            break;
+            cout << "Too many attempt ..try again later :D ";
+            return;
         }
-        cout << endl;
+        else
+        {
+            cout << "Would you like to make a deposit? (Y/N): ";
+            cin >> choice;
+
+            switch (choice)
+            {
+            case 'Y':
+            case 'y':
+                cout << "How much deposit would you like to make? : ";
+                cin >> depositAmount;
+                setBalance(getBalance() + depositAmount, depositAmount);
+                break;
+
+            case 'N':
+            case 'n':
+                cout << "No deposit made.\n";
+                break;
+
+            default:
+                cout << "ERROR : Press 'Y' for 'yes' or 'N' for 'no'." << endl;
+                deposit(attempt + 1);
+                break;
+            }
+            cout << endl;
+        }
     }
 
-    void withdraw()
+    // a method function to track withdrawls
+    // answer all the yes / no questions with "Y,y,N,n"
+    // recursion function called if yes/no is answered any other way
+
+    void withdraw(int attempt = 1)
     {
+
+        cout << "WITHDRAWL WINDOW : " << endl;
         char s;
         cout << "Would you like to make a withdraw ?(Y/N): ";
         cin >> s;
-        int amount;
-        switch (s)
+        if (attempt > 2)
         {
-        case 'Y':
-        case 'y':
-            cout << "How much would you like to withdraw ? :";
-            cin >> amount;
-            setBalance(getBalance() - amount);
-            break;
-        case 'N':
-        case 'n':
-            cout << "No amount withdrawn.\n";
-            break;
-        default:
-            cout << "ERROR : Press 'Y' for 'yes' or 'N' for 'no'.\n";
-            withdraw();
-            break;
+            cout << "Too many attempts .....try again later ";
+            return;
+        }
+        else
+        {
+            int amount;
+            switch (s)
+            {
+            case 'Y':
+            case 'y':
+                cout << "How much would you like to withdraw ? :";
+                cin >> amount;
+                setBalance(getBalance() - amount, amount);
+                break;
+            case 'N':
+            case 'n':
+                cout << "No amount withdrawn.\n";
+                break;
+            default:
+                cout << "ERROR : Press 'Y' for 'yes' or 'N' for 'no'.\n";
+                withdraw(attempt + 1);
+                break;
+            }
         }
         cout << endl;
     }
 
+    // a method function to get information of user
+
     void getInfo()
     {
+        cout << "----------------------" << endl;
+        cout << " USER'S INFORMATION : " << endl;
+        cout << "----------------------" << endl;
         cout << "Name : " << name << endl;
         cout << "Balance : " << balance << endl;
         cout << "Account number : " << accNum << endl;
@@ -113,13 +144,14 @@ public:
 
 int main()
 {
-    Bank user1;
-    user1.setInfo("Saloni", 10000, "12345");
+    // creatting an object 'user1'
+
+    Bank user1("Saloni Sharma", 10000, "ABC12345");
     user1.getInfo();
     user1.deposit();
     user1.withdraw();
     user1.getInfo();
 
-
     return 0;
 }
+        
